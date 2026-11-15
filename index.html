@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- resizes-content: on Android the page shrinks above the keyboard instead of hiding the prompt -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+    <meta name="theme-color" content="#16161d" />
+    <title>hademirrenOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main id="screen">
+      <div id="hero" aria-hidden="true"><pre id="art"></pre></div>
+      <section id="term" aria-label="terminal">
+        <div id="output" role="log"></div>
+        <form id="prompt" hidden>
+          <label for="cmd" id="prompt-label"></label>
+          <input id="cmd" autocomplete="off" spellcheck="false" autocapitalize="off" autocorrect="off" enterkeyhint="go" />
+        </form>
+        <nav id="chips" hidden></nav>
+      </section>
+    </main>
+
+    <section id="window" class="mac" hidden>
+      <header class="titlebar">
+        <div class="lights">
+          <button type="button" class="light close" aria-label="Close"></button>
+          <button type="button" class="light min" aria-label="Minimize"></button>
+          <button type="button" class="light zoom" aria-label="Zoom"></button>
+        </div>
+        <div class="title" id="win-title"></div>
+      </header>
+      <div class="win-body">
+        <div id="stage"></div>
+        <p class="caption" id="win-caption"></p>
+      </div>
+    </section>
+
+    <div id="dock" hidden></div>
+    <p id="credit">Made by Hammad Hassan</p>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

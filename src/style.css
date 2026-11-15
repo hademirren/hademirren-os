@@ -1,0 +1,644 @@
+:root {
+  --bg: #16161d; /* eigengrau */
+  --fg: #dcdce3;
+  --dim: #6f6f7d;
+  --gold: #e0b04a;
+  --cherry: #e0284a;
+  --line: #2b2b36;
+  --panel: #1b1b23;
+  --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* display rules below would otherwise beat the hidden attribute */
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  /* the terminal scrolls inside itself, like a real one */
+  overflow: hidden;
+}
+
+::selection {
+  background: rgba(224, 176, 74, 0.3);
+}
+
+a,
+.link {
+  color: var(--gold);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button.link {
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  text-align: left;
+}
+
+a:hover,
+.link:hover,
+a:focus-visible,
+.link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  outline: none;
+}
+
+/* ---------- screen: the rose up top, the terminal along the bottom ---------- */
+
+#screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+#hero {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding-top: 12px;
+}
+
+#art {
+  margin: 0;
+  color: var(--cherry);
+  font-family: var(--mono);
+  line-height: 1.1;
+  white-space: pre;
+  user-select: none;
+}
+
+/* petals: outline, its lit side, and the fill */
+#art .r {
+  color: #c8203f;
+}
+
+#art .h {
+  color: #ff4d6a;
+}
+
+#art .p {
+  color: #a3233a;
+}
+
+#art .q {
+  color: #6e1a2a;
+}
+
+/* stem and thorns */
+#art .s {
+  color: #b9852f;
+}
+
+/* leaves: outline and fill */
+#art .l {
+  color: #7f7b50;
+}
+
+#art .o {
+  color: #48472f;
+}
+
+#term {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 54%;
+  padding-bottom: max(18px, env(safe-area-inset-bottom));
+}
+
+#output {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+  /* older lines fade out under the rose instead of being cut off */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 56px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 56px);
+}
+
+#output::-webkit-scrollbar {
+  display: none;
+}
+
+/* output starts at the bottom and grows up, and still scrolls once it's full */
+#output > :first-child {
+  margin-top: auto;
+}
+
+.line {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* an empty line still takes up a line, like in a real terminal */
+.line:empty {
+  min-height: 1.6em;
+}
+
+.dim {
+  color: var(--dim);
+}
+
+.gold {
+  color: var(--gold);
+}
+
+.dir {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.err-pwsh {
+  color: #ff6b6b;
+}
+
+.name {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.bar-done {
+  color: var(--gold);
+}
+
+.bar-left {
+  color: #34343f;
+}
+
+.western {
+  /* a purple glint crosses the name now and then; the text itself stays the normal colour */
+  background: linear-gradient(100deg, var(--fg) 0 42%, #9a6cf0 46.5%, #e4d4ff 50%, #9a6cf0 53.5%, var(--fg) 58% 100%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: western-shine 6.5s ease-in-out infinite;
+}
+
+/* the sweep takes about 2.3s, then the name rests for about 4s */
+@keyframes western-shine {
+  0% {
+    background-position: 100% 0;
+  }
+  36%,
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+.degree-sub {
+  font-style: italic;
+  font-size: 0.87em;
+  color: #b9b9c4;
+}
+
+/* two columns that line up: a link and what it is */
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 2ch;
+}
+
+.row > :first-child {
+  flex: none;
+  min-width: 11ch;
+}
+
+.files {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 3ch;
+}
+
+/* "Clickable ->" beside things you can click, for anyone who doesn't live in a terminal */
+.clk {
+  color: var(--dim);
+}
+
+.listed {
+  display: grid;
+  grid-template-columns: max-content max-content 1fr;
+  align-items: baseline;
+  column-gap: 2ch;
+}
+
+.listed .link {
+  justify-self: start;
+}
+
+#prompt {
+  display: flex;
+  align-items: baseline;
+  gap: 1ch;
+  flex: none;
+}
+
+#prompt label {
+  white-space: nowrap;
+}
+
+.user {
+  color: var(--gold);
+}
+
+.host {
+  color: var(--cherry);
+}
+
+#cmd {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--fg);
+  font: inherit;
+  caret-color: var(--gold);
+}
+
+#chips {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 2.5ch;
+  margin-top: 14px;
+  font-size: 13px;
+}
+
+.chips-label {
+  color: var(--dim);
+}
+
+/* gold means clickable, everywhere on the site */
+.chip {
+  padding: 2px 0;
+  background: none;
+  border: none;
+  color: var(--gold);
+  font: inherit;
+  cursor: pointer;
+}
+
+.chip:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  outline: none;
+}
+
+/* on phones a tap leaves :hover stuck on, so only real pointers get it */
+@media (hover: hover) {
+  .chip:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+/* ---------- macOS window ---------- */
+
+.mac {
+  position: fixed;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  min-height: 240px;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid #33333f;
+  border-radius: 10px;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.55),
+    0 2px 6px rgba(0, 0, 0, 0.35);
+  transform-origin: 50% 50%;
+  transition:
+    transform 0.22s ease,
+    opacity 0.22s ease;
+}
+
+.mac.opening {
+  transform: scale(0.96);
+  opacity: 0;
+}
+
+.mac.minimizing {
+  transform: translate(var(--dock-dx, 0), var(--dock-dy, 40vh)) scale(0.08);
+  opacity: 0;
+  /* a shrunk window still catches clicks unless told not to */
+  pointer-events: none;
+  transition:
+    transform 0.35s cubic-bezier(0.55, 0, 0.75, 0.2),
+    opacity 0.35s ease-in;
+}
+
+.mac.zoomed {
+  border-radius: 6px;
+}
+
+.mac.dragging {
+  transition: none;
+}
+
+.titlebar {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 12px;
+  background: #22222b;
+  border-bottom: 1px solid var(--line);
+  cursor: default;
+  user-select: none;
+  touch-action: none;
+}
+
+.lights {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 8px;
+}
+
+.light {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border-radius: 50%;
+  border: 0.5px solid rgba(0, 0, 0, 0.25);
+  cursor: default;
+}
+
+.light.close {
+  background: #ff5f57;
+}
+
+.light.min {
+  background: #febc2e;
+}
+
+.light.zoom {
+  background: #28c840;
+}
+
+/* macOS only shows the symbols while you hover the group */
+.light::after {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(0, 0, 0, 0.6);
+  font: 700 9px/1 system-ui, sans-serif;
+  opacity: 0;
+}
+
+.light.close::after {
+  content: '×';
+  font-size: 10px;
+}
+
+.light.min::after {
+  content: '−';
+}
+
+.light.zoom::after {
+  content: '+';
+}
+
+.lights:hover .light::after {
+  opacity: 1;
+}
+
+.title {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #9d9daa;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.win-body {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+#stage canvas {
+  display: block;
+}
+
+.stage-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.caption {
+  flex: none;
+  margin: 0;
+  padding: 9px 16px 10px;
+  background: #1d1d25;
+  border-top: 1px solid var(--line);
+  color: #a9a9b6;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* desktop: bottom right corner; phones: top right, above the rose (see below) */
+#credit {
+  position: fixed;
+  right: 24px;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  margin: 0;
+  color: var(--dim);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+#dock {
+  position: fixed;
+  left: 50%;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 25;
+  display: flex;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(34, 34, 43, 0.94);
+  border: 1px solid #33333f;
+  border-radius: 12px;
+  transform: translateX(-50%);
+}
+
+#dock .chip {
+  color: var(--fg);
+}
+
+/* ---------- labels in the 3d views, plain like terminal text ---------- */
+
+.label3d {
+  color: #b4b4c0;
+  font: 12px var(--mono);
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow:
+    0 0 3px var(--bg),
+    0 0 6px var(--bg);
+}
+
+.label3d.cherry {
+  color: #ff5a75;
+}
+
+/* code map blocks: the name, and what the block is while it's hovered or tapped */
+.label3d.on {
+  color: var(--gold);
+  /* the renderer restacks labels by depth every frame; the open one stays on top */
+  z-index: 100 !important;
+}
+
+.label3d .count {
+  color: var(--dim);
+}
+
+.label3d .sub {
+  width: 30ch;
+  margin-top: 4px;
+  padding: 5px 8px;
+  background: rgba(22, 22, 29, 0.96);
+  border-radius: 4px;
+  color: var(--fg);
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: normal;
+  text-align: center;
+  text-shadow: none;
+}
+
+/* ---------- phones ---------- */
+
+@media (max-width: 700px) {
+  html,
+  body {
+    font-size: 13px;
+  }
+
+  #screen {
+    padding: 0 14px;
+  }
+
+  #term {
+    height: 56%;
+  }
+
+  .caption {
+    padding: 8px 12px 9px;
+    font-size: 12px;
+  }
+
+  /* the bottom is the command row on a phone, the open space is above the rose */
+  #credit {
+    top: max(12px, env(safe-area-inset-top));
+    bottom: auto;
+    right: 14px;
+  }
+
+  #hero {
+    padding-top: 34px;
+  }
+
+  /* label and all four commands on one line, even on a small phone */
+  #chips {
+    column-gap: 1.6ch;
+  }
+
+  #dock {
+    top: max(12px, env(safe-area-inset-top));
+    bottom: auto;
+  }
+}
+
+/* no room for three columns: the label sits on its own line above the list */
+@media (max-width: 560px) {
+  .listed {
+    grid-template-columns: max-content 1fr;
+  }
+
+  .listed .clk {
+    grid-column: 1 / -1;
+  }
+
+  .listed .clk-pad {
+    display: none;
+  }
+}
+
+/* small phones like the iPhone SE: tighten the command row so it stays on one line */
+@media (max-width: 380px) {
+  #chips {
+    column-gap: 1.2ch;
+    font-size: 12.5px;
+  }
+}
+
+/* touch screens: bigger targets, and inputs under 16px make iOS zoom in */
+@media (hover: none) {
+  #cmd {
+    font-size: 16px;
+  }
+
+  .chip {
+    padding: 6px 0;
+  }
+
+  .row .link,
+  .files .link {
+    display: inline-block;
+    padding: 3px 0;
+  }
+}
