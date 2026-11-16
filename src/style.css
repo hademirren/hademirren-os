@@ -479,6 +479,44 @@ a:focus-visible,
   height: 100%;
 }
 
+/* resumes: the pages on a dark desk, scrolled inside the window */
+.pdf {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.pdf-page {
+  position: relative;
+  flex: none;
+  background: #fff;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+
+.pdf-page canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.pdf-page a {
+  position: absolute;
+}
+
+.caption a.link {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.caption a.link:hover {
+  text-decoration: underline;
+}
+
 .caption {
   flex: none;
   margin: 0;
@@ -576,7 +614,45 @@ a:focus-visible,
     height: 56%;
   }
 
-  .caption {
+  /* resumes: the pages on a dark desk, scrolled inside the window */
+.pdf {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.pdf-page {
+  position: relative;
+  flex: none;
+  background: #fff;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+
+.pdf-page canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.pdf-page a {
+  position: absolute;
+}
+
+.caption a.link {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.caption a.link:hover {
+  text-decoration: underline;
+}
+
+.caption {
     padding: 8px 12px 9px;
     font-size: 12px;
   }

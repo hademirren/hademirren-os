@@ -57,7 +57,7 @@ function distance(a, b) {
 const LOADED = new Date()
 const SCHOOL = 'The University of Western Ontario'
 
-export function createShell({ output, input, label, form, chips, onOpenProject, onReboot, touch = false }) {
+export function createShell({ output, input, label, form, chips, onOpenProject, onOpenResume, onReboot, touch = false }) {
   const shells = ['bash'] // a stack, so exit drops back to the shell you came from
   let cwd = []
   const history = []
@@ -281,8 +281,9 @@ export function createShell({ output, input, label, form, chips, onOpenProject, 
 
   function openResume(which) {
     const r = RESUMES[which]
-    line(`opening ${r.file.slice(1)}`, 'dim')
-    window.open(r.file, '_blank', 'noopener')
+    line(`opening ${r.label}.pdf`, 'dim')
+    if (onOpenResume) onOpenResume(r.file, `${r.label}.pdf`)
+    else window.open(r.file, '_blank', 'noopener')
   }
 
   function openTarget(arg) {

@@ -22,7 +22,8 @@ export function createWindow({ onClose, onShow, onHide } = {}) {
   let closeTimer = null
 
   const ui = {
-    setCaption: (text) => (captionEl.textContent = text),
+    // text, or nodes when the caption needs a link in it
+    setCaption: (...parts) => captionEl.replaceChildren(...parts),
   }
 
   function place({ left, top, width, height }) {

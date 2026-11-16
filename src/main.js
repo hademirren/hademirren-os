@@ -31,6 +31,22 @@ function openProject(id) {
   })
 }
 
+function openResume(file, title) {
+  const download = document.createElement('a')
+  download.className = 'link'
+  download.href = file
+  download.download = file.slice(1)
+  download.textContent = 'download pdf'
+  win.open({
+    title,
+    caption: download,
+    mount: async (stage) => {
+      const { mountPdf } = await import('./pdfview.js')
+      return mountPdf(stage, file)
+    },
+  })
+}
+
 const shell = createShell({
   output: document.querySelector('#output'),
   input,
@@ -38,6 +54,7 @@ const shell = createShell({
   form: document.querySelector('#prompt'),
   chips: document.querySelector('#chips'),
   onOpenProject: openProject,
+  onOpenResume: openResume,
   onReboot: () => {
     win.close()
     shell.start()
